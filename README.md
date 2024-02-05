@@ -1,4 +1,4 @@
-# ClothStoreWarehouseBE
+# ClothStoreWarehouseBERefactor
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/clothstoreproject/clothstorewarehousebe.git
+git remote add origin https://gitlab.com/clothstoreproject/cloth-store-warehouse.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/clothstoreproject/clothstorewarehousebe/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/clothstoreproject/cloth-store-warehouse/-/settings/integrations)
 
 ## Collaborate with your team
 
