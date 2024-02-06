@@ -11,6 +11,7 @@ import com.example.ctcommondal.entity.CustomerInfoEntity;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -55,4 +56,34 @@ public class ICustomerServiceImpl implements ICustomerService {
             throw e;
         }
     }
+    @Override
+    public void updateCustomerInfo(CustomerInfoDto customerInfo) {
+        try {
+            CustomerInfoEntity updateCustomer = ICustomerMapper.INSTANCE.toFromCustomerInfoDto(customerInfo);
+            customerInfoRespository.save(updateCustomer);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    public void deleteCustomerByPhone(CustomerDto phone) {
+        try {
+            Optional<CustomerEntity> customerEntity = customerRepository.findByPhone(phone);
+            if (customerEntity.isPresent()) {
+                customerRepository.delete(customerEntity.get());
+            } else {
+                throw new RuntimeException("Customer not found with phone: " + phone);
+            }
+        } catch (Exception e) {
+            logger.error("Error deleting customer with phone: " + phone, e);
+            throw e;
+        }
+    }
+
+
+
+
+
 }

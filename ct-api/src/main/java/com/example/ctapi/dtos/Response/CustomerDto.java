@@ -31,24 +31,23 @@ public class CustomerDto {
     private CustomerGender gender;
     private String password;
 
-    private LocalDateTime getDateNowToDateCreated(){
+    private LocalDateTime getDateNowToDateCreated() {
         return HandleDate.getDatetimeNowFromSystem();
     }
 
     private LocalDateTime getDateWhenUpdate() {
-       return HandleDate.getDatetimeNowFromSystem();
+        return HandleDate.getDatetimeNowFromSystem();
     }
 
-    private void checkIDObject(String id){
-        if(this.id == id){
+    private void checkIDObject(String id) {
+        if (this.id == id) {
             this.dateUpdated = getDateWhenUpdate();
-        }
-        else{
+        } else {
             this.dateUpdated = null;
         }
     }
 
-    public CustomerDto(){
+    public CustomerDto() {
         this.id = CreateRandomID.generatingUID();
         this.eid = CreateRandomID.generateRandomId();
         this.dateCreated = getDateNowToDateCreated();

@@ -3,6 +3,7 @@ package com.example.ctapi.services;
 import com.example.ctapi.dtos.Response.CustomerDto;
 import com.example.ctapi.dtos.Response.CustomerInfoDto;
 import com.example.ctcommondal.entity.CustomerEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
@@ -14,4 +15,8 @@ public interface ICustomerService {
 
     //Create Customer Information when Order Shopping
     void addCustomerInfo(CustomerInfoDto customerInfo);
+
+    void updateCustomerInfo(CustomerInfoDto customerInfo);
+
+    void deleteCustomerByPhone(String phone);
 }

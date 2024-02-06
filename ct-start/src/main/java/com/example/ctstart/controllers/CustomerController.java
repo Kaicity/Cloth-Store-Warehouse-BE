@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +37,19 @@ public class CustomerController {
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
             return ResponseEntity.ok(new ResponseDto(List.of("Can not add data"),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+    @PostMapping("updateCustomer")
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerDto customer) {
+        try {
+            customerService.addCustomer(customer);
+            return ResponseEntity.ok(new ResponseDto(List.of("Updating data for customer"),
+                    HttpStatus.CREATED.value(), customer));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of("Can not update data"),
                     HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
@@ -72,4 +82,19 @@ public class CustomerController {
                     HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
+    @PostMapping("/deleteCustomerByPhone")
+    public ResponseEntity<?> deleteCustomerByPhone(@RequestBody CustomerDto phone) {
+        try {
+            customerService.deleteCustomerByPhone(phone);
+            return ResponseEntity.ok(new ResponseDto(List.of("Deleting data for customer"),
+                    HttpStatus.OK.value(), null));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of("Can not delete data"),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+
 }
+
