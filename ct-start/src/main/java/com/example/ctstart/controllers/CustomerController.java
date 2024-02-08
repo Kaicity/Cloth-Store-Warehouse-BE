@@ -1,10 +1,10 @@
 package com.example.ctstart.controllers;
 
+import com.example.ctapi.Mappers.ICustomerMapper;
 import com.example.ctapi.dtos.Response.CustomerDto;
 import com.example.ctapi.dtos.Response.CustomerInfoDto;
 import com.example.ctapi.dtos.Response.CustomerLoginRequest;
 import com.example.ctapi.dtos.Response.ResponseDto;
-import com.example.ctapi.Mappers.ICustomerMapper;
 import com.example.ctapi.services.ICustomerService;
 import com.example.ctcommondal.entity.CustomerEntity;
 import lombok.RequiredArgsConstructor;
@@ -82,10 +82,11 @@ public class CustomerController {
                     HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
-    @PostMapping("/deleteCustomerByPhone")
-    public ResponseEntity<?> deleteCustomerByPhone(@RequestBody CustomerDto phone) {
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteCustomerById(@PathVariable String id) {
         try {
-            customerService.deleteCustomerByPhone(phone);
+            customerService.deleteCustomerById(id);
             return ResponseEntity.ok(new ResponseDto(List.of("Deleting data for customer"),
                     HttpStatus.OK.value(), null));
         } catch (RuntimeException e) {
@@ -94,7 +95,5 @@ public class CustomerController {
                     HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
-
-
 }
 

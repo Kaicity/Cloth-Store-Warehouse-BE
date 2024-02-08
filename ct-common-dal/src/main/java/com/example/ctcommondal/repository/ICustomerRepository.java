@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ICustomerRepository extends JpaRepository<CustomerEntity, String> {
     @Query("SELECT c FROM CustomerEntity c WHERE c.phone = :phone AND c.password = :password")
     Optional<CustomerEntity> findOneByUsernameAndPassword(@Param("phone") String phone, @Param("password") String password);
+
     Optional<CustomerEntity> findByPhone(String phone);
 }
