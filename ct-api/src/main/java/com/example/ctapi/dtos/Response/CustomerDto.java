@@ -49,7 +49,7 @@ public class CustomerDto {
 
     public CustomerDto() {
         this.id = CreateRandomID.generatingUID();
-        this.eid = CreateRandomID.generateRandomId();
+        this.eid = CreateRandomID.generateRandomCode();
         this.dateCreated = getDateNowToDateCreated();
     }
 }

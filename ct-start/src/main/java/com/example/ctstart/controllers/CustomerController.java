@@ -44,7 +44,7 @@ public class CustomerController {
     @PostMapping("updateCustomer")
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerDto customer) {
         try {
-            customerService.addCustomer(customer);
+            customerService.updateCustomer(customer);
             return ResponseEntity.ok(new ResponseDto(List.of("Updating data for customer"),
                     HttpStatus.CREATED.value(), customer));
         } catch (RuntimeException e) {

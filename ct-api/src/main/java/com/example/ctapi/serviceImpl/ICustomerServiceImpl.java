@@ -81,4 +81,15 @@ public class ICustomerServiceImpl implements ICustomerService {
             throw e;
         }
     }
+
+    @Override
+    public void updateCustomer(CustomerDto customer) {
+        try {
+            CustomerEntity updateCustomer = ICustomerMapper.INSTANCE.toFromCustomerDto(customer);
+            customerRepository.save(updateCustomer);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
 }

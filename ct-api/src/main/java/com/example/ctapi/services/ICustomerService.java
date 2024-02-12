@@ -18,4 +18,6 @@ public interface ICustomerService {
     void updateCustomerInfo(CustomerInfoDto customerInfo);
 
     void deleteCustomerById(String id);
+
+    void updateCustomer(CustomerDto customer);
 }

@@ -18,6 +18,6 @@ public class CustomerInfoDto {
 
     public CustomerInfoDto() {
         this.id = CreateRandomID.generatingUID();
-        this.eid = CreateRandomID.generateRandomId();
+        this.eid = CreateRandomID.generateRandomCode();
     }
 }
