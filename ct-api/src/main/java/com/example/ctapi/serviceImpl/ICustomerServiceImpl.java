@@ -3,6 +3,7 @@ package com.example.ctapi.serviceImpl;
 import com.example.ctapi.Mappers.ICustomerMapper;
 import com.example.ctapi.dtos.Response.CustomerDto;
 import com.example.ctapi.dtos.Response.CustomerInfoDto;
+import com.example.ctapi.dtos.Response.CustomerSearchDto;
 import com.example.ctapi.services.ICustomerService;
 import com.example.ctcommondal.entity.CustomerEntity;
 import com.example.ctcommondal.entity.CustomerInfoEntity;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -83,6 +85,25 @@ public class ICustomerServiceImpl implements ICustomerService {
     }
 
     @Override
+    @Transactional
+    public CustomerSearchDto getAllCustomerBaseSearch() {
+        List<CustomerEntity> customerEntityList=customerRepository.findAll();
+        List<CustomerDto>customerDtoList=ICustomerMapper.INSTANCE.toFromCustomerEntitylist(customerEntityList);
+        CustomerSearchDto result = new CustomerSearchDto();
+        result.setResult(customerDtoList);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public CustomerDto getCustomerByIds(String id) {
+        CustomerEntity customerEntity=customerRepository.findCustomerDTOById(id);
+        CustomerDto customerDto=ICustomerMapper.INSTANCE.toFromCustomerEntity(customerEntity);
+        return customerDto;
+    }
+
+    @Override
+    @Transactional
     public void updateCustomer(CustomerDto customer) {
         try {
             CustomerEntity updateCustomer = ICustomerMapper.INSTANCE.toFromCustomerDto(customer);

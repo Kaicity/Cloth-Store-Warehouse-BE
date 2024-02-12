@@ -7,6 +7,7 @@ import com.example.ctapi.dtos.Response.CustomerLoginRequest;
 import com.example.ctapi.dtos.Response.ResponseDto;
 import com.example.ctapi.services.ICustomerService;
 import com.example.ctcommondal.entity.CustomerEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,38 @@ public class CustomerController {
         }
     }
 
+
+    @PostMapping("/getAllCustomer")
+    private ResponseEntity<?> getAllCustomer(HttpServletRequest request) {
+        try {
+            int a =0;
+            var result = customerService.getAllCustomerBaseSearch();
+            return ResponseEntity.ok(new ResponseDto(List.of("Successful for find!"), HttpStatus.OK.value(), result));
+
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+    @PostMapping("getCustomerByIds")
+    private ResponseEntity<?> getCustomerByIds(@RequestBody String customerId){
+        try{
+            var rs = customerService.getCustomerByIds(customerId);
+
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of("ok"),
+                    HttpStatus.OK.value(),
+                    rs
+            ));
+        }catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null
+            ));
+        }
+    }
     @PostMapping("/login")
     public ResponseEntity<?> loginCustomer(@RequestBody CustomerLoginRequest customerLoginRequest) {
         int a = 0;

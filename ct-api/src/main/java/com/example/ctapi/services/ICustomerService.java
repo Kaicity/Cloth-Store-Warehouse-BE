@@ -2,6 +2,7 @@ package com.example.ctapi.services;
 
 import com.example.ctapi.dtos.Response.CustomerDto;
 import com.example.ctapi.dtos.Response.CustomerInfoDto;
+import com.example.ctapi.dtos.Response.CustomerSearchDto;
 import com.example.ctcommondal.entity.CustomerEntity;
 
 import java.util.Optional;
@@ -20,4 +21,6 @@ public interface ICustomerService {
     void deleteCustomerById(String id);
 
     void updateCustomer(CustomerDto customer);
+    CustomerSearchDto getAllCustomerBaseSearch();
+    CustomerDto getCustomerByIds(String id);
 }
