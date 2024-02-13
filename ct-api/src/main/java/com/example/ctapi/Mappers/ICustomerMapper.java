@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface ICustomerMapper {
     ICustomerMapper INSTANCE = Mappers.getMapper(ICustomerMapper.class);
@@ -17,6 +19,7 @@ public interface ICustomerMapper {
 
     @Mapping(target = "ranking", source = "ranking")
     CustomerDto toFromCustomerEntity(CustomerEntity customer);
+    List<CustomerDto> toFromCustomerEntitylist(List<CustomerEntity> Listcustomer);
 
     CustomerInfoEntity toFromCustomerInfoDto(CustomerInfoDto customerInfo);
 }
