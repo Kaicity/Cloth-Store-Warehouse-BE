@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -42,7 +43,7 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("updateCustomer")
+    @PostMapping("/updateCustomer")
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerDto customer) {
         try {
             customerService.updateCustomer(customer);
@@ -68,10 +69,12 @@ public class CustomerController {
             return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
-    @PostMapping("getCustomerByIds")
-    private ResponseEntity<?> getCustomerByIds(@RequestBody String customerId){
+    @PostMapping("/getCustomerById")
+    private ResponseEntity<?> getCustomerByIds(@RequestBody Map<String, String> request){
+        String id = request.get("id");
         try{
-            var rs = customerService.getCustomerByIds(customerId);
+            int a = 0;
+            var rs = customerService.getCustomerByIds(id);
 
             return ResponseEntity.ok(new ResponseDto(
                     List.of("ok"),

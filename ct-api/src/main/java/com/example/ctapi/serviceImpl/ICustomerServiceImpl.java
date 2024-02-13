@@ -87,8 +87,8 @@ public class ICustomerServiceImpl implements ICustomerService {
     @Override
     @Transactional
     public CustomerSearchDto getAllCustomerBaseSearch() {
-        List<CustomerEntity> customerEntityList=customerRepository.findAll();
-        List<CustomerDto>customerDtoList=ICustomerMapper.INSTANCE.toFromCustomerEntitylist(customerEntityList);
+        List<CustomerEntity> customerEntityList = customerRepository.findAll();
+        List<CustomerDto> customerDtoList = ICustomerMapper.INSTANCE.toFromCustomerEntitylist(customerEntityList);
         CustomerSearchDto result = new CustomerSearchDto();
         result.setResult(customerDtoList);
         return result;
@@ -97,9 +97,15 @@ public class ICustomerServiceImpl implements ICustomerService {
     @Override
     @Transactional
     public CustomerDto getCustomerByIds(String id) {
-        CustomerEntity customerEntity=customerRepository.findCustomerDTOById(id);
-        CustomerDto customerDto=ICustomerMapper.INSTANCE.toFromCustomerEntity(customerEntity);
-        return customerDto;
+        try {
+            int a = 0;
+            CustomerEntity customerEntity = customerRepository.findCustomerDTOById(id);
+            CustomerDto customerDto = ICustomerMapper.INSTANCE.toFromCustomerEntity(customerEntity);
+            return customerDto;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
