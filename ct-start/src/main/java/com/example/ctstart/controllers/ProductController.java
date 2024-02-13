@@ -1,6 +1,7 @@
 package com.example.ctstart.controllers;
 
 import com.example.ctapi.dtos.Response.ProductDto;
+import com.example.ctapi.dtos.Response.ProductSearchDto;
 import com.example.ctapi.dtos.Response.ResponseDto;
 import com.example.ctapi.services.IProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,9 +38,20 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/{id}")
+    private ResponseEntity<?> seachProductById(@PathVariable String id) {
+        try {
+            var result = productService.getProductById(id);
+            return ResponseEntity.ok(new ResponseDto(List.of("Seach success"), HttpStatus.CREATED.value(), result));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
     @PostMapping("getAllProductByIds")
-    private ResponseEntity<?> getAllProductByIds(@RequestBody List<String>productIds){
-        try{
+    private ResponseEntity<?> getAllProductByIds(@RequestBody List<String> productIds) {
+        try {
             var rs = productService.getAllProductByIds(productIds);
 
             return ResponseEntity.ok(new ResponseDto(
@@ -47,7 +59,7 @@ public class ProductController {
                     HttpStatus.OK.value(),
                     rs
             ));
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
             return ResponseEntity.ok(new ResponseDto(
                     List.of(e.getMessage()),
@@ -63,6 +75,18 @@ public class ProductController {
         try {
             productService.addProduct(product);
             return ResponseEntity.ok(new ResponseDto(List.of("Add product to success"), HttpStatus.CREATED.value(), product));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+    @PostMapping("/updateProduct")
+    private ResponseEntity<?> updateProduct(@RequestBody ProductDto product) {
+        int i = 0;
+        try {
+            productService.updateProduct(product);
+            return ResponseEntity.ok(new ResponseDto(List.of("Update product to success"), HttpStatus.CREATED.value(), product));
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
             return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
@@ -94,6 +118,22 @@ public class ProductController {
         }
     }
 
+    @PostMapping("/seachPrice")
+    private ResponseEntity<?> seachProductPrice(@RequestBody Map<String, String> requestBody) {
+        int i = 0;
+        String productPriceMin = requestBody.get("priceMin");
+        Double isPriceMin = Double.parseDouble(productPriceMin);
+        String productPriceMax = requestBody.get("priceMax");
+        Double isPriceMax = Double.parseDouble(productPriceMax);
+        try {
+            var result = productService.seachProductByPrice(isPriceMin, isPriceMax);
+            return ResponseEntity.ok(new ResponseDto(List.of("Seach success"), HttpStatus.CREATED.value(), result));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
     @PostMapping("/seachName")
     private ResponseEntity<?> seachProductName(@RequestBody Map<String, String> requestBody) {
         int i = 0;
@@ -101,6 +141,19 @@ public class ProductController {
         try {
             var result = productService.seachProductForName(productName);
             return ResponseEntity.ok(new ResponseDto(List.of("Seach success"), HttpStatus.CREATED.value(), result));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+
+    @PostMapping("/searchAdvance")
+    private ResponseEntity<?> searchAdvance(@RequestBody ProductSearchDto search) {
+
+        try {
+            var result = productService.searchAdvance(search);
+            return ResponseEntity.ok(new ResponseDto(List.of("Search success"), HttpStatus.CREATED.value(), result));
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
             return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));

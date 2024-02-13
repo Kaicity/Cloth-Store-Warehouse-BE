@@ -11,8 +11,10 @@ import java.util.List;
 
 @Repository
 public interface IProductRepository extends JpaRepository<ProductEntity, String> {
-    @Query("SELECT f FROM ProductEntity f WHERE f.id = :id ")
-    List<ProductEntity> findAllFoodById(@Param("id") String id);
+    @Query("SELECT p FROM ProductEntity p WHERE p.id = :id ")
+    ProductEntity findProductById(@Param("id") String id);
+    @Query("SELECT p FROM ProductEntity p WHERE p.price BETWEEN :priceMin AND :priceMax")
+    List<ProductEntity> findProductByPrice(@Param("priceMin") Double priceMin, @Param("priceMax") Double priceMax);
 
     @Query("SELECT p FROM ProductEntity p WHERE p.code = :code ")
     ProductEntity findProductByCode(@Param("code") String code);
