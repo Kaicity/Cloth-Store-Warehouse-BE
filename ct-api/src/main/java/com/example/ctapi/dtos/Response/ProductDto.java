@@ -27,7 +27,7 @@ public class ProductDto {
 
     public ProductDto(){
         this.id = CreateRandomID.generatingUID();
-        this.code = CreateRandomID.generateRandomId();
+        this.code = CreateRandomID.generateRandomCode();
     }
     public ProductDto(String id){
         this.id = id;

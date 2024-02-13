@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class CreateRandomID {
     //formar = abcd-1234
-    public static String generateRandomId(){
+    public static String generateRandomCode(){
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String numbers = "0123456789";
         //String formatEid = letters + numbers;

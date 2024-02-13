@@ -1,24 +1,23 @@
 package com.example.ctstart.controllers;
 
+import com.example.ctapi.Mappers.ICustomerMapper;
 import com.example.ctapi.dtos.Response.CustomerDto;
 import com.example.ctapi.dtos.Response.CustomerInfoDto;
 import com.example.ctapi.dtos.Response.CustomerLoginRequest;
 import com.example.ctapi.dtos.Response.ResponseDto;
-import com.example.ctapi.Mappers.ICustomerMapper;
 import com.example.ctapi.services.ICustomerService;
 import com.example.ctcommondal.entity.CustomerEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -44,6 +43,53 @@ public class CustomerController {
         }
     }
 
+    @PostMapping("/updateCustomer")
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerDto customer) {
+        try {
+            customerService.updateCustomer(customer);
+            return ResponseEntity.ok(new ResponseDto(List.of("Updating data for customer"),
+                    HttpStatus.CREATED.value(), customer));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of("Can not update data"),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+
+    @PostMapping("/getAllCustomer")
+    private ResponseEntity<?> getAllCustomer(HttpServletRequest request) {
+        try {
+            int a =0;
+            var result = customerService.getAllCustomerBaseSearch();
+            return ResponseEntity.ok(new ResponseDto(List.of("Successful for find!"), HttpStatus.OK.value(), result));
+
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+    @PostMapping("/getCustomerById")
+    private ResponseEntity<?> getCustomerByIds(@RequestBody Map<String, String> request){
+        String id = request.get("id");
+        try{
+            int a = 0;
+            var rs = customerService.getCustomerByIds(id);
+
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of("ok"),
+                    HttpStatus.OK.value(),
+                    rs
+            ));
+        }catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null
+            ));
+        }
+    }
     @PostMapping("/login")
     public ResponseEntity<?> loginCustomer(@RequestBody CustomerLoginRequest customerLoginRequest) {
         int a = 0;
@@ -72,4 +118,18 @@ public class CustomerController {
                     HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteCustomerById(@PathVariable String id) {
+        try {
+            customerService.deleteCustomerById(id);
+            return ResponseEntity.ok(new ResponseDto(List.of("Deleting data for customer"),
+                    HttpStatus.OK.value(), null));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of("Can not delete data"),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
 }
+
