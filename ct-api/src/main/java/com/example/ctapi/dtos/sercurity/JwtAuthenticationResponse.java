@@ -1,5 +1,6 @@
  package com.example.ctapi.dtos.sercurity;
 
+import com.example.ctcommon.enums.Role;
 import lombok.Data;
 
 import java.time.LocalDateTime;
