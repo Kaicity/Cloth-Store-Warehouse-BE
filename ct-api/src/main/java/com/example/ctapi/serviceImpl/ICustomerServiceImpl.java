@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class ICustomerServiceImpl implements ICustomerService {
     private final ICustomerInfoRespository customerInfoRespository;
 
     @Override
+    @Transactional
     public void addCustomer(CustomerDto customer) {
         try {
             CustomerEntity customerEntity = ICustomerMapper.INSTANCE.toFromCustomerDto(customer);
@@ -37,6 +39,7 @@ public class ICustomerServiceImpl implements ICustomerService {
     }
 
     //Check username account of customer
+    @Transactional
     @Override
     public Optional<CustomerEntity> loginAccount(String phone, String password) {
         try {
@@ -108,10 +111,12 @@ public class ICustomerServiceImpl implements ICustomerService {
         }
     }
 
-    @Override
     @Transactional
+    @Override
     public void updateCustomer(CustomerDto customer) {
         try {
+            LocalDateTime dateUpdate = LocalDateTime.now();
+            customer.setDateUpdated(dateUpdate);
             CustomerEntity updateCustomer = ICustomerMapper.INSTANCE.toFromCustomerDto(customer);
             customerRepository.save(updateCustomer);
         } catch (Exception e) {

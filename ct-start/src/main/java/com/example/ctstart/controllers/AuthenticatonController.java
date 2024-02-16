@@ -9,6 +9,7 @@ import com.example.ctapi.dtos.sercurity.UserPrinciple;
 import com.example.ctapi.services.IEmployeeService;
 import com.example.ctapi.services.JWTService;
 import com.example.ctcommon.enums.Role;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -60,8 +63,15 @@ public class AuthenticatonController {
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateToken(authentication);
+
+        Claims claims = jwtService.decodeJWT(jwt);
+        LocalDateTime startTime = LocalDateTime.parse((String) claims.get("startTime"));
+        LocalDateTime expirationTime = LocalDateTime.parse((String) claims.get("expirationTime"));
+
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
         jwtAuthenticationResponse.setToken(jwt);
+        jwtAuthenticationResponse.setTimeStart(startTime);
+        jwtAuthenticationResponse.setTimeEnd(expirationTime);
 
         // set thêm thời gian hiệu lực của token
 

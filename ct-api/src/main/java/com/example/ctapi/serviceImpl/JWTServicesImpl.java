@@ -15,19 +15,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.time.ZoneId;
 
 @Service
 public class JWTServicesImpl implements JWTService {
 
     @Override
     public String generateToken(Authentication authentication) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expirationTime = now.plusMinutes(60 * 24); // Expiration time 24 hours from now
+
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
         return Jwts.builder().setSubject(userPrincipal.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+//              .setIssuedAt(new Date(System.currentTimeMillis()))
+//              .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setIssuedAt(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()))
+                .setExpiration(Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(getSiginKey(), SignatureAlgorithm.HS256) // Changed to HS256
                 .claim("email", userPrincipal.getEmail())
                 .claim("phone", userPrincipal.getPhone())
@@ -35,6 +42,8 @@ public class JWTServicesImpl implements JWTService {
                 .claim("agencyId", userPrincipal.getAgencyId())
                 .claim("companyId", userPrincipal.getCompanyId())
                 .claim("timeZone", userPrincipal.getTimezone())
+                .claim("startTime", now.toString()) // Add start time as claim
+                .claim("expirationTime", expirationTime.toString()) // Add expiration time as claim
                 .compact();
     }
 
@@ -49,8 +58,6 @@ public class JWTServicesImpl implements JWTService {
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
-
 
 
     // ??? chữ t dau:))
@@ -104,5 +111,10 @@ public class JWTServicesImpl implements JWTService {
 
         // Tạo đối tượng Authentication từ UserDetails
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    @Override
+    public Claims decodeJWT(String jwt) {
+        return Jwts.parser().setSigningKey(getSiginKey()).parseClaimsJws(jwt).getBody();
     }
 }
