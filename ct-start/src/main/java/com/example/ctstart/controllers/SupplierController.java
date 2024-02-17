@@ -2,6 +2,7 @@ package com.example.ctstart.controllers;
 
 import com.example.ctapi.dtos.Response.ResponseDto;
 import com.example.ctapi.dtos.Response.SupplierDto;
+import com.example.ctapi.dtos.Response.SupplierSearchDto;
 import com.example.ctapi.services.ISupplierService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +80,17 @@ public class SupplierController {
         try {
             var result = supplierService.getSupplierById(id);
             return ResponseEntity.ok(new ResponseDto(List.of("Seach success"), HttpStatus.CREATED.value(), result));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+    @PostMapping("/searchAdvance")
+    private ResponseEntity<?> searchAdvance(@RequestBody SupplierSearchDto search) {
+        try {
+            var result = supplierService.searchAdvance(search);
+            return ResponseEntity.ok(new ResponseDto(List.of("Search success"), HttpStatus.CREATED.value(), result));
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
             return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));

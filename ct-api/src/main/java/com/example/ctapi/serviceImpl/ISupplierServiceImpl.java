@@ -4,6 +4,7 @@ import com.example.ctapi.Mappers.ISupplierMapper;
 import com.example.ctapi.dtos.Response.SupplierDto;
 import com.example.ctapi.dtos.Response.SupplierSearchDto;
 import com.example.ctapi.services.ISupplierService;
+import com.example.ctcommondal.dao.ISupplierDao;
 import com.example.ctcommondal.entity.SupplierEntity;
 import com.example.ctcommondal.repository.ISupplierRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +14,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
 public class ISupplierServiceImpl implements ISupplierService {
     private static final Logger logger = LoggerFactory.getLogger(ISupplierServiceImpl.class);
     private final ISupplierRepository supplierRepository;
+    private final ISupplierDao supplierDao;
+
 
     @Override
     @Transactional
@@ -79,4 +85,18 @@ public class ISupplierServiceImpl implements ISupplierService {
         result.setResult(supplier);
         return result;
     }
+
+    @Override
+    @Transactional
+    public SupplierSearchDto searchAdvance(SupplierSearchDto searchDto) {
+        Map<String, Object> mapSearch = new HashMap<>();
+        mapSearch.put("code", searchDto.getCode());
+        mapSearch.put("nameSupllier", searchDto.getName());
+        mapSearch.put("phone", searchDto.getPhone());
+        List<SupplierEntity> supplierEntities = supplierDao.supplierAdvanceSearch(mapSearch);
+        List<SupplierDto> supplier = ISupplierMapper.INSTANCE.toListSuppliertoFormEntity(supplierEntities);
+        searchDto.setResult(supplier);
+        return searchDto;
+    }
+
 }
