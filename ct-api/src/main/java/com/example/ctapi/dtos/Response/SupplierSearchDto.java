@@ -9,4 +9,7 @@ import java.util.List;
 public class SupplierSearchDto extends BaseSearchDto<List<SupplierDto>> {
     String idCompany;
     String status;
+    String code;
+    String name;
+    String phone;
 }
