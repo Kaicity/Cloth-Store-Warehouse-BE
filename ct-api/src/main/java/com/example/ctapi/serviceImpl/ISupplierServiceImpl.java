@@ -65,10 +65,11 @@ public class ISupplierServiceImpl implements ISupplierService {
     }
 
     @Override
-    public SupplierDto getSupplierById(String id) {
+    public  List<SupplierDto> getSupplierByIds(List<String> ids) {
         try {
-            SupplierEntity supplierEntity = supplierRepository.findSupplierEntitiesById(id);
-            SupplierDto supplierDto = ISupplierMapper.INSTANCE.toFromSupplierEntity(supplierEntity);
+            int a = 0;
+            List<SupplierEntity> supplierEntities = supplierRepository.findSupplierEntitiesByIds(ids);
+            List<SupplierDto> supplierDto = ISupplierMapper.INSTANCE.toListSuppliertoFormEntity(supplierEntities);
             return supplierDto;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

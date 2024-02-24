@@ -25,6 +25,9 @@ public class EmployeeEntity {
     @Column(name = "firstname")
     private String firstname;
 
+    @Column(name = "company_id")
+    private String companyId;
+
     @Column(name = "lastname")
     private String lastname;
 

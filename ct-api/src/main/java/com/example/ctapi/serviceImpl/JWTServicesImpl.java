@@ -27,7 +27,7 @@ public class JWTServicesImpl implements JWTService {
     @Override
     public String generateToken(Authentication authentication) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expirationTime = now.plusMinutes(60 * 24); // Expiration time 24 hours from now
+        LocalDateTime expirationTime = now.plusMinutes(60 * 12); // Expiration time 24 hours from now
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
         return Jwts.builder().setSubject(userPrincipal.getUsername())

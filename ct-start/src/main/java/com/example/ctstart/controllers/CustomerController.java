@@ -23,7 +23,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/Customer")
-public class CustomerController {
+public class CustomerController extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 

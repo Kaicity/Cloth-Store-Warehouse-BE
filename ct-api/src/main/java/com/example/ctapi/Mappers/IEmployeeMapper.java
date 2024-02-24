@@ -12,5 +12,6 @@ public interface IEmployeeMapper {
     IEmployeeMapper INSTANCE = Mappers.getMapper(IEmployeeMapper.class);
 
     @Mapping(target = "agency.id", source = "agencyId")
+    @Mapping(target = "company.id", source = "companyId")
     EmployeeDto toEmployeeDtoFromEntity(EmployeeEntity employee);
 }
