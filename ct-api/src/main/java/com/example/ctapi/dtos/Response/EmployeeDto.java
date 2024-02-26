@@ -22,4 +22,5 @@ public class EmployeeDto {
     private AgencyModel agency;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
+    private CompanyDto company;
 }

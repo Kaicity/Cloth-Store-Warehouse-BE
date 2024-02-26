@@ -3,6 +3,8 @@ package com.example.ctapi.services;
 import com.example.ctapi.dtos.Response.SupplierDto;
 import com.example.ctapi.dtos.Response.SupplierSearchDto;
 
+import java.util.List;
+
 public interface ISupplierService {
     void CreateSupplier(SupplierDto supplier);
 
@@ -10,7 +12,7 @@ public interface ISupplierService {
 
     void updateSupplier(SupplierDto supplier);
 
-    SupplierDto getSupplierById(String id);
+    List<SupplierDto> getSupplierByIds(List<String> ids);
 
     SupplierSearchDto getAllSupplierBaseSearch();
 

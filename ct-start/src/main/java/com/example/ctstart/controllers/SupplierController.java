@@ -75,16 +75,30 @@ public class SupplierController {
         }
     }
 
-    @GetMapping("/{id}")
-    private ResponseEntity<?> seachSupplierById(@PathVariable String id) {
+    @PostMapping("/seachSupplierByIds")
+    private ResponseEntity<?> seachSupplierByIds(@RequestBody List<String> ids) {
         try {
+            int a = 0;
+            var result = supplierService.getSupplierByIds(ids);
+            return ResponseEntity.ok(new ResponseDto(List.of("Seach success"), HttpStatus.OK.value(), result));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
+        }
+    }
+
+    /*@PostMapping("/getSupplier")
+    private ResponseEntity<?> seachSupplierById(@RequestBody Map<String, String> requestBody) {
+        try {
+            int a = 0;
+            String id = requestBody.get("id");
             var result = supplierService.getSupplierById(id);
             return ResponseEntity.ok(new ResponseDto(List.of("Seach success"), HttpStatus.CREATED.value(), result));
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
             return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
-    }
+    }*/
 
     @PostMapping("/searchAdvance")
     private ResponseEntity<?> searchAdvance(@RequestBody SupplierSearchDto search) {

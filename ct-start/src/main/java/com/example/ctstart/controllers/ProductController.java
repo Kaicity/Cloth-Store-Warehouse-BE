@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/Food")
-public class ProductController {
+public class ProductController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(IProductService.class);
 
     @Autowired
@@ -72,8 +72,9 @@ public class ProductController {
     @PostMapping("/addProduct")
     private ResponseEntity<?> newProduct(@RequestBody ProductDto product) {
         int i = 0;
+        String companyId = this.getCompanyID();
         try {
-            productService.addProduct(product);
+           // productService.addProduct(product);
             return ResponseEntity.ok(new ResponseDto(List.of("Add product to success"), HttpStatus.CREATED.value(), product));
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);
