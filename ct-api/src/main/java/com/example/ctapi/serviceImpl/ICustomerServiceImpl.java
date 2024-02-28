@@ -111,6 +111,33 @@ public class ICustomerServiceImpl implements ICustomerService {
         }
     }
 
+    @Override
+    @Transactional
+    public List<CustomerDto> getAllCustomerListId(List<String> ids) {
+        try {
+            int a = 0;
+            List<CustomerEntity> customerList = customerRepository.findAllById(ids);
+            List<CustomerDto> customerDtos = ICustomerMapper.INSTANCE.toFromCustomerEntitylist(customerList);
+            return customerDtos;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+    @Override
+    @Transactional
+    public  CustomerDto getAllCustomerListcode(String ids) {
+        try {
+            int a = 0;
+            CustomerEntity customerList = customerRepository.findCustomerDTOBycode(ids);
+            CustomerDto customerDtos = ICustomerMapper.INSTANCE.toFromCustomerEntity(customerList);
+            return customerDtos;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
     @Transactional
     @Override
     public void updateCustomer(CustomerDto customer) {

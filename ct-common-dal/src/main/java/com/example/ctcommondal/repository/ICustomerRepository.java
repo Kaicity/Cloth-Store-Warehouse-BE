@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ICustomerRepository extends JpaRepository<CustomerEntity, String> {
@@ -13,4 +14,6 @@ public interface ICustomerRepository extends JpaRepository<CustomerEntity, Strin
     @Query("SELECT c FROM CustomerEntity c WHERE c.id = :id")
     CustomerEntity  findCustomerDTOById(@Param("id") String id);
     Optional<CustomerEntity> findByPhone(String phone);
+    @Query("SELECT c FROM CustomerEntity c WHERE c.eid = :id")
+    CustomerEntity  findCustomerDTOBycode(@Param("id") String id);
 }

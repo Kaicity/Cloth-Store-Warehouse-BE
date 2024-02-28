@@ -23,7 +23,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/Customer")
-public class CustomerController extends BaseController{
+public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
@@ -69,11 +69,32 @@ public class CustomerController extends BaseController{
             return ResponseEntity.ok(new ResponseDto(List.of(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value(), null));
         }
     }
+    @PostMapping("/getCustomerBycode")
+    private ResponseEntity<?> getCustomerBycode(@RequestBody Map<String, String> request){
+        int a = 0;
+        String id = request.get("eid");
+        try{
+            var rs = customerService.getAllCustomerListcode(id);
+
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of("ok"),
+                    HttpStatus.OK.value(),
+                    rs
+            ));
+        }catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null
+            ));
+        }
+    }
     @PostMapping("/getCustomerById")
     private ResponseEntity<?> getCustomerByIds(@RequestBody Map<String, String> request){
+        int a = 0;
         String id = request.get("id");
         try{
-            int a = 0;
             var rs = customerService.getCustomerByIds(id);
 
             return ResponseEntity.ok(new ResponseDto(
@@ -90,6 +111,27 @@ public class CustomerController extends BaseController{
             ));
         }
     }
+    @PostMapping("/getCustomerByIdShare")
+    private ResponseEntity<?> getCustomerByIdshare(@RequestBody List<String> id){
+        int a = 0;
+        try{
+            var rs = customerService.getAllCustomerListId(id);
+
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of("ok"),
+                    HttpStatus.OK.value(),
+                    rs
+            ));
+        }catch (RuntimeException e) {
+            logger.error(e.getMessage(), e);
+            return ResponseEntity.ok(new ResponseDto(
+                    List.of(e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null
+            ));
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> loginCustomer(@RequestBody CustomerLoginRequest customerLoginRequest) {
         int a = 0;
