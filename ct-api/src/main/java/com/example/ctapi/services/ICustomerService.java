@@ -5,6 +5,7 @@ import com.example.ctapi.dtos.Response.CustomerInfoDto;
 import com.example.ctapi.dtos.Response.CustomerSearchDto;
 import com.example.ctcommondal.entity.CustomerEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ICustomerService {
@@ -23,4 +24,6 @@ public interface ICustomerService {
     void updateCustomer(CustomerDto customer);
     CustomerSearchDto getAllCustomerBaseSearch();
     CustomerDto getCustomerByIds(String id);
+    List<CustomerDto> getAllCustomerListId(List<String> ids);
+    CustomerDto getAllCustomerListcode(String ids);
 }
