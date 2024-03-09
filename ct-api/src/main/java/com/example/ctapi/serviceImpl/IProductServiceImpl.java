@@ -47,7 +47,7 @@ public class IProductServiceImpl implements IProductService {
             ProductEntity productEntity = productRepository.findById(id).get();
             ProductDto productDto = IProductMapper.INSTANCE.toProductDtoFromEntity(productEntity);
 
-            List<ColorsEntity> colorsEntities = colorsRepository.findAllSizesByProductId(id);
+            List<ColorsEntity> colorsEntities = colorsRepository.findAllColorsByProductId(id);
             List<ColorsDto> colorDtos = IColorsMapper.INSTANCE.toColorListFromEntityList(colorsEntities);
             for (ColorsDto colorsDto : colorDtos) {
                 List<OptionProductDto> result = optionProductDtos.stream()
@@ -88,7 +88,7 @@ public class IProductServiceImpl implements IProductService {
             List<ProductDto> products = IProductMapper.INSTANCE.toProductDtoListFromEntityList(productEntityList);
             List<String> productIDs = products.stream().map(ProductDto::getId).collect(Collectors.toList());
 
-            List<ColorsEntity> colorsEntities = colorsRepository.findAllSizesByProductIds(productIDs);
+            List<ColorsEntity> colorsEntities = colorsRepository.findAllColorsByProductIds(productIDs);
             List<ColorsDto> colorDtos = IColorsMapper.INSTANCE.toColorListFromEntityList(colorsEntities);
             for (ColorsDto colorsDto : colorDtos) {
                 List<OptionProductDto> result = optionProductDtos.stream()
@@ -146,8 +146,10 @@ public class IProductServiceImpl implements IProductService {
     @Override
     public void addProduct(ProductDto productDto) {
         try {
+            int a=0;
             ProductEntity productEntity = IProductMapper.INSTANCE.toProductEntityFromDto(productDto);
             productRepository.save(productEntity);
+
             for (SizesDto size : productDto.getSizes()) {
                 ProductDto sizeOfProduct = new ProductDto(productDto.getId());
                 size.setProduct(sizeOfProduct);
@@ -172,7 +174,7 @@ public class IProductServiceImpl implements IProductService {
     @Override
     public void deleteProduct(String id) {
         try {
-            List<ColorsEntity> colorsEntities = colorsRepository.findAllSizesByProductId(id);
+            List<ColorsEntity> colorsEntities = colorsRepository.findAllColorsByProductId(id);
             colorsRepository.deleteAll(colorsEntities);
 
             List<SizesEntity> sizesEntities = sizesRepository.findAllColorsbyProductId(id);
@@ -200,34 +202,27 @@ public class IProductServiceImpl implements IProductService {
             existingProduct.setSpecification(productDto.getSpecification());
             productRepository.save(existingProduct);
 
-            for (SizesDto size : productDto.getSizes()) {
-                ProductDto sizeOfProduct = new ProductDto(productDto.getId());
-                List<String> sizeIds = productDto.getSizes().stream().map(SizesDto::getId).collect(Collectors.toList());
-                for (String id : sizeIds) {
-                    SizesDto sizeItemOfProduct = new SizesDto(id);
-                    size.setId(sizeOfProduct.getId());
-                    size.setProduct(sizeOfProduct);
-                }
+            //Xóa product id có sizes
+            List<SizesEntity> sizesEntities = sizesRepository.findAllColorsbyProductId(productDto.getId());
+            sizesRepository.deleteAll(sizesEntities);
+
+            //Lấy Size mới
+            List<SizesEntity> sizesEntitiesUpdate = ISizesMapper.INSTANCE.toSizesEntityListFromDtoList(productDto.getSizes());
+            for(SizesEntity size : sizesEntitiesUpdate){
+                size.setProductId(productDto.getId());
+                sizesRepository.save(size);
             }
 
-            for (ColorsDto color : productDto.getColors()) {
-                ProductDto colorOfProduct = new ProductDto(productDto.getId());
-                List<String> colorIds = productDto.getColors().stream().map(ColorsDto::getId).collect(Collectors.toList());
-                for (String id : colorIds) {
-                    ColorsDto colorItemOfproduct = new ColorsDto(id);
-                    color.setId(colorItemOfproduct.getId());
-                    color.setProduct(colorOfProduct);
-                }
+            //Xóa product id có colors
+            List<ColorsEntity> colorEntities = colorsRepository.findAllColorsByProductId(productDto.getId());
+            colorsRepository.deleteAll(colorEntities);
+
+            //Lấy Color mới
+            List<ColorsEntity> colorEntitiesUpdate = IColorsMapper.INSTANCE.toColorListFromDtoList(productDto.getColors());
+            for(ColorsEntity color : colorEntitiesUpdate){
+                color.setProductId(productDto.getId());
+                colorsRepository.save(color);
             }
-
-            List<SizesEntity> sizes = ISizesMapper.INSTANCE.toSizesEntityListFromDtoList(productDto.getSizes());
-            List<ColorsEntity> colors = IColorsMapper.INSTANCE.toColorListFromDtoList(productDto.getColors());
-
-            System.out.println(sizes);
-            System.out.println(colors);
-
-            sizesRepository.saveAll(sizes);
-            colorsRepository.saveAll(colors);
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -246,7 +241,7 @@ public class IProductServiceImpl implements IProductService {
             List<ProductDto> productDtos = IProductMapper.INSTANCE.toProductDtoListFromEntityList(productEntities);
             List<String> productIDs = productDtos.stream().map(ProductDto::getId).collect(Collectors.toList());
 
-            List<ColorsEntity> colorsEntities = colorsRepository.findAllSizesByProductIds(productIDs);
+            List<ColorsEntity> colorsEntities = colorsRepository.findAllColorsByProductIds(productIDs);
             List<ColorsDto> colorsDtos = IColorsMapper.INSTANCE.toColorListFromEntityList(colorsEntities);
             for (ColorsDto colorsDto : colorsDtos) {
                 List<OptionProductDto> result = optionProductDtos.stream()
@@ -300,7 +295,7 @@ public class IProductServiceImpl implements IProductService {
             ProductEntity productEntity = productRepository.findProductByCode(code);
             ProductDto productDto = IProductMapper.INSTANCE.toProductDtoFromEntity(productEntity);
 
-            List<ColorsEntity> colorsEntities = colorsRepository.findAllSizesByProductId(productDto.getId());
+            List<ColorsEntity> colorsEntities = colorsRepository.findAllColorsByProductId(productDto.getId());
             List<ColorsDto> colorsDtos = IColorsMapper.INSTANCE.toColorListFromEntityList(colorsEntities);
             for (ColorsDto colorsDto : colorsDtos) {
                 List<OptionProductDto> result = optionProductDtos.stream()
@@ -352,7 +347,7 @@ public class IProductServiceImpl implements IProductService {
             List<ProductDto> productDtos = IProductMapper.INSTANCE.toProductDtoListFromEntityList(productEntities);
             List<String> productIDs = productDtos.stream().map(ProductDto::getId).collect(Collectors.toList());
 
-            List<ColorsEntity> colorsEntities = colorsRepository.findAllSizesByProductIds(productIDs);
+            List<ColorsEntity> colorsEntities = colorsRepository.findAllColorsByProductIds(productIDs);
             List<ColorsDto> colorsDtos = IColorsMapper.INSTANCE.toColorListFromEntityList(colorsEntities);
             for (ColorsDto colorsDto : colorsDtos) {
                 List<OptionProductDto> result = optionProductDtos.stream()

@@ -74,7 +74,7 @@ public class ProductController extends BaseController {
         int i = 0;
         String companyId = this.getCompanyID();
         try {
-           // productService.addProduct(product);
+            productService.addProduct(product);
             return ResponseEntity.ok(new ResponseDto(List.of("Add product to success"), HttpStatus.CREATED.value(), product));
         } catch (RuntimeException e) {
             logger.error(e.getMessage(), e);

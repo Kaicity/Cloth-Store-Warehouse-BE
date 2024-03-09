@@ -18,10 +18,12 @@ public interface IProductMapper {
 
     @Mapping(target = "category_id", source = "catelory.id")
     @Mapping(target = "company_id", source = "company.id")
+    @Mapping(target = "status", source = "status")
     List<ProductDto> toProductDtoListFromEntityList(List<ProductEntity> productEntityList);
 
     @Mapping(target = "categoryID", source = "catelory.id")
     @Mapping(target = "companyID", source = "company.id")
+    @Mapping(target = "status", source = "status")
     ProductEntity toProductEntityFromDto(ProductDto product);
 
     List<ProductEntity> toProductEntityListFromDtoList(List<ProductDto> productEntityList);
