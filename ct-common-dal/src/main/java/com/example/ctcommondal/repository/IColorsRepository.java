@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface IColorsRepository extends JpaRepository<ColorsEntity, String> {
     @Query("SELECT c FROM ColorsEntity c WHERE c.productId in :ids  ")
-    List<ColorsEntity> findAllSizesByProductIds(@Param("ids") List<String> ids);
+    List<ColorsEntity> findAllColorsByProductIds(@Param("ids") List<String> ids);
 
     @Query("SELECT c FROM ColorsEntity c WHERE c.productId in :productId")
-    List<ColorsEntity> findAllSizesByProductId(@Param("productId") String productId);
+    List<ColorsEntity> findAllColorsByProductId(@Param("productId") String productId);
 }

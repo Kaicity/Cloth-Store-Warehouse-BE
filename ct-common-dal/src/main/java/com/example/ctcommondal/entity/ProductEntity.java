@@ -1,5 +1,6 @@
 package com.example.ctcommondal.entity;
 
+import com.example.ctcommon.enums.ProductStatus;
 import com.example.ctcommon.enums.SpecificationProduct;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,8 @@ public class ProductEntity {
     private Double price;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @Column(name = "image")
     private String image;
