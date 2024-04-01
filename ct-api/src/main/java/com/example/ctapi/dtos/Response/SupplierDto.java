@@ -3,12 +3,11 @@ package com.example.ctapi.dtos.Response;
 import com.example.ctapi.dtos.bussinessLogic.CreateRandomID;
 import com.example.ctapi.dtos.bussinessLogic.HandleDate;
 import com.example.ctcommon.enums.StatusSupplier;
-import com.example.ctcommon.enums.TypeOptionProduct;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor

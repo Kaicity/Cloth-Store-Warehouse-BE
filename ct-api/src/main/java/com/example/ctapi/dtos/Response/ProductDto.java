@@ -3,10 +3,10 @@ package com.example.ctapi.dtos.Response;
 import com.example.ctapi.dtos.bussinessLogic.CreateRandomID;
 import com.example.ctcommon.enums.ProductStatus;
 import com.example.ctcommon.enums.SpecificationProduct;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.List;
 
 @AllArgsConstructor
