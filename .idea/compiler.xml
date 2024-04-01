@@ -8,7 +8,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ct-common" />
         <module name="ct-api" />
-        <module name="cloth-store-warehouse" />
         <module name="ct-core-service" />
         <module name="ct-start" />
         <module name="ct-core-model" />
@@ -22,7 +21,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="cloth-store-warehouse" options="-parameters" />
+      <module name="cloth-store-warehouse" options="" />
       <module name="ct-api" options="-parameters" />
       <module name="ct-common" options="-parameters" />
       <module name="ct-common-dal" options="-parameters" />

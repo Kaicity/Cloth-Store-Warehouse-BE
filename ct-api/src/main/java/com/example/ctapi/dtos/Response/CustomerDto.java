@@ -4,11 +4,12 @@ import com.example.ctapi.dtos.bussinessLogic.CreateRandomID;
 import com.example.ctapi.dtos.bussinessLogic.HandleDate;
 import com.example.ctcommon.enums.CustomerGender;
 import com.example.ctcommon.enums.CustomerRanking;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 
