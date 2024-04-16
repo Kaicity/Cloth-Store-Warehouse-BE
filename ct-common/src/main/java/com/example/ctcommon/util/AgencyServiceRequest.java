@@ -15,13 +15,16 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
 public class AgencyServiceRequest {
-    private String agencyApiUrl ="http://localhost:5555";
+
+    @Value("${portAgency}")
+    private String agencyApiUrl;
 
     public <T, K> T post(String uri, K body, Class<T> clazz, HttpServletRequest request)
             throws IOException {
