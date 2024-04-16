@@ -11,5 +11,4 @@ public class CtStartApplication {
     public static void main(String[] args) {
         SpringApplication.run(CtStartApplication.class, args);
     }
-
 }
