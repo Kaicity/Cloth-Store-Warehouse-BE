@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ct-common" />
-        <module name="ct-api" />
         <module name="ct-core-service" />
         <module name="ct-start" />
         <module name="ct-core-model" />
+        <module name="ct-api" />
         <module name="ct-common-dal" />
       </profile>
     </annotationProcessing>

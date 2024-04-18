@@ -1,27 +1,20 @@
-# Stage: PACKAGE
-FROM maven:3.8.4-openjdk-17 AS MAVEN_BUILD
+# Use the official image as a parent image
+FROM mysql:8.0
 
-WORKDIR /usr/src/app
+# Set the working directory in the container
+WORKDIR /docker-entrypoint-initdb.d
 
-# copy the pom and src code to the container
-COPY . .
+# Copy the database initialize script:
+# Contents of /docker-entrypoint-initdb.d directory are executed
+# in alphabetical order.
+COPY ./db/ct_warehouse.sql .
 
-# package our application code
-RUN mvn clean package
+# Make MySQL listen on all interfaces.
+ENV MYSQL_ROOT_HOST=%
 
-# Stage: FINAL
-FROM openjdk:17-alpine AS FINAL
+# Use root/1234 as user/password credentials
+ENV MYSQL_ROOT_PASSWORD=1234
+ENV MYSQL_DATABASE=ct_warehouse
 
-ARG PROFILE
-ENV APP_PORT=5556
-ENV APP_VERSION=0.0.1-SNAPSHOT
-ENV APP_PROFILE=$PROFILE
-
-WORKDIR /usr/src/app
-
-# copy only the artifacts we need from the first stage and discard the rest
-COPY --from=MAVEN_BUILD /usr/src/app/ct-start/target/*.jar ./
-
-EXPOSE ${APP_PORT}
-
-CMD java -Dserver.port=${APP_PORT} -jar ./ct-start-${APP_VERSION}.jar --spring.profiles.active=${APP_PROFILE}
+# Expose port 3306 to the outside world
+EXPOSE 3306
