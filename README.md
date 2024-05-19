@@ -32,13 +32,13 @@ Note: Application.properties different to deployment server
 Run `mvn clean install`
 
 ## Run and start warehouse springboot project
-Run `npm install -g @angular/cli`
+Run application
 
 ## Deloyment Docker
 ...
 ...
 ...
 
-##Image Demo
+## Image Demo
 ![warehouse](https://github.com/Kaicity/Kaicity/blob/main/assets/Screenshot%202024-05-20%20005525.png)
 
