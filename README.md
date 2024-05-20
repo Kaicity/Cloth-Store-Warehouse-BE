@@ -35,9 +35,16 @@ Run `mvn clean install`
 Run application
 
 ## Deloyment Docker
-...
-...
-...
+This is an instructional clip: https://youtu.be/GE7tn2l9B1E
+For warehousedb : 
+ - Build image for this : " docker build -t warehousedb . "
+
+ - Create Container from image : " docker run -p 3307:3306 --name warehousedb warehousedb "
+
+For Warehousebe you open terminal in ct-start: 
+ - Build image for this : " docker build -t warehousebe . "
+
+ - Create Container from image : " docker run -p 5556:5556 --name warehousebe warehousebe "
 
 ## Image Demo
 ![warehouse](https://github.com/Kaicity/Kaicity/blob/main/assets/Screenshot%202024-05-20%20005525.png)
